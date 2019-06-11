@@ -3,7 +3,7 @@
 
 ## 主要依赖库
 - [ItChat](https://github.com/littlecodersh/ItChat) - 微信个人号收发消息
-- [APScheduler]() - 定时任务
+- [APScheduler](https://github.com/agronholm/apscheduler) - 定时任务
 - [requests](https://github.com/kennethreitz/requests) - 网络请求
 - [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/) - 页面解析
 
