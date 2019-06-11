@@ -15,3 +15,33 @@
 - [天气 API](https://www.tianqiapi.com/api) - 天气信息
 - [ONE · 一个](http://wufazhuce.com/) - 一句话格言
 - [金山词霸](http://open.iciba.com/dsapi/) - 金山词霸每日一句
+
+## 使用
+- 安装依赖
+```bash
+$ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+
+- 运行
+```bash
+$ python main.py
+```
+
+## Docker
+- 构建镜像
+```bash
+$ docker build --no-cache -t nekolr/wechat-robot:0.0.1 .
+```
+
+- 运行容器（需要调整时区）
+```bash
+$ docker run --name wechat-robot -dit \
+        -e TZ="Asia/Shanghai" \
+        --network=host \
+        nekolr/wechat-robot:0.0.1
+```
+
+- 查看日志（这样才可以扫码）
+```bash
+docker logs -f wechat-robot
+```
