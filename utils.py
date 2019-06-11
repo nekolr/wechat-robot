@@ -58,13 +58,21 @@ def is_online(auto_login=False):
 
     # 尝试登录 5 次
     for _ in range(5):
-        # 命令行显示登录二维码
-        if os.environ.get('MODE') == 'server':
-            itchat.auto_login(enableCmdQR=2, hotReload=True)
-        else:
-            itchat.auto_login(hotReload=True)
+        login()
         if _online():
             logging.info('登录成功')
             return True
     logging.info('登录成功')
     return False
+
+
+def login():
+    """
+    登录微信
+    :return:
+    """
+    # 命令行显示登录二维码
+    if os.environ.get('MODE') == 'server':
+        itchat.auto_login(enableCmdQR=2, hotReload=True)
+    else:
+        itchat.auto_login(hotReload=True)

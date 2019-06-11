@@ -7,7 +7,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from template import weather_template
-from utils import get_json, is_online
+from utils import get_json, is_online, login
 from config import config
 import logging
 
@@ -82,6 +82,8 @@ def send_today_info():
 
 
 def start():
+    # 先登录一次，用于保存登录信息
+    login()
     # 定时任务
     scheduler = BlockingScheduler()
     # 每天定时发送天气信息
