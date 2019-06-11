@@ -12,6 +12,8 @@ config = {
     'minute': '40',
     # the time (in seconds) how much this job’s execution is allowed to be late
     'grace_time': 15 * 60,
+    # 女朋友所在地
+    'city': '通州',
     # 日志输出格式
     'logging_format': '%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s'
 }

@@ -12,7 +12,7 @@ from config import config
 import logging
 
 # UserAgent
-ua = UserAgent()
+ua = UserAgent(path='fake_useragent_0.1.11.json')
 # 日志基本设置
 logging.basicConfig(level=logging.INFO,
                     format=config['logging_format'])
@@ -33,7 +33,7 @@ def get_one_info():
     :return: str， 一句格言或者短语。
     """
     logging.info('从『 http://wufazhuce.com/ 』获取一句格言')
-    response = requests.get("http://wufazhuce.com/", headers={'User-Agent': ua.chrome})
+    response = requests.get("http://wufazhuce.com/", headers={'User-Agent': ua.random})
     if response.status_code == 200:
         soup_texts = BeautifulSoup(response.text, 'lxml')
         # 『one -个』 中的每日一句
@@ -67,7 +67,7 @@ def send_today_info():
     :return:
     """
     # 获取天气
-    weather_info = get_weather('通州')
+    weather_info = get_weather(config['city'])
     # 获取一言
     one_info = get_one_info()
 
