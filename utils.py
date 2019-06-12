@@ -4,6 +4,7 @@ from simplejson import JSONDecodeError
 import itchat
 import os
 import logging
+import datetime
 
 
 def is_json(response):
@@ -76,3 +77,19 @@ def login():
         itchat.auto_login(enableCmdQR=2, hotReload=True)
     else:
         itchat.auto_login(hotReload=True)
+
+
+def say_hello():
+    """
+    根据时间输出 hello
+    :return:
+    """
+    hour = datetime.datetime.now().hour
+    if hour < 11:
+        return '早上好'
+    elif 11 <= hour < 13:
+        return '中午好'
+    elif 13 <= hour < 19:
+        return '下午好'
+    else:
+        return '晚上好'

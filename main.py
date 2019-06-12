@@ -6,8 +6,8 @@ import requests
 from apscheduler.schedulers.blocking import BlockingScheduler
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-from template import weather_template
-from utils import get_json, is_online, login
+import template
+from utils import (get_json, is_online, login, say_hello)
 from config import config
 import logging
 
@@ -48,7 +48,7 @@ def get_weather(city):
     logging.info('从『 https://www.tianqiapi.com/api 』获取天气信息')
     weather = get_json(requests.get('https://www.tianqiapi.com/api', params={"version": "v1", "city": city}))
     if weather is not None:
-        return weather_template.substitute(
+        return template.weather_template.substitute(
             date=weather['data'][0]['date'],
             week=weather['data'][0]['week'],
             city=weather['city'],
@@ -61,13 +61,37 @@ def get_weather(city):
         )
 
 
+def get_weather_v1(city):
+    """
+    获取天气信息
+    :param city:
+    :return:
+    """
+    logging.info('从『 http://www.nmc.cn 』获取天气信息')
+    weather = get_json(requests.get('http://www.nmc.cn/f/rest/weather/' + city))
+    if weather is not None:
+        return template.weather_template_v1.substitute(
+            hello=say_hello(),
+            date=weather[0]['detail'][0]['date'],
+            city=weather[0]['station']['city'],
+            day_wea=weather[0]['detail'][0]['day']['weather']['info'],
+            night_wea=weather[0]['detail'][0]['night']['weather']['info'],
+            high=weather[0]['detail'][0]['day']['weather']['temperature'] + ' 度',
+            low=weather[0]['detail'][0]['night']['weather']['temperature'] + ' 度',
+            day_win=weather[0]['detail'][0]['day']['wind']['direct'],
+            night_win=weather[0]['detail'][0]['night']['wind']['direct'],
+            day_win_speed=weather[0]['detail'][0]['day']['wind']['power'],
+            night_win_speed=weather[0]['detail'][0]['night']['wind']['power']
+        )
+
+
 def send_today_info():
     """
     发送当天的信息
     :return:
     """
     # 获取天气
-    weather_info = get_weather(config['city'])
+    weather_info = get_weather_v1(config['city'])
     # 获取一言
     one_info = get_one_info()
 
