@@ -74,16 +74,32 @@ def get_weather_v1(city):
     logging.info('从『 http://www.nmc.cn 』获取天气信息')
     weather = get_json(requests.get('http://www.nmc.cn/f/rest/weather/' + city, headers={'User-Agent': ua.random}))
     if weather is not None:
-        return template.weather_template_v1.substitute(
-            hello=say_hello(),
-            date=weather[0]['detail'][0]['date'],
-            city=weather[0]['station']['city'],
-            day_wea=weather[0]['detail'][0]['day']['weather']['info'],
-            night_wea=weather[0]['detail'][0]['night']['weather']['info'],
-            high=weather[0]['detail'][0]['day']['weather']['temperature'] + ' 度',
-            low=weather[0]['detail'][0]['night']['weather']['temperature'] + ' 度',
-            day_win=weather[0]['detail'][0]['day']['wind']['direct'],
-            night_win=weather[0]['detail'][0]['night']['wind']['direct'],
-            day_win_speed=weather[0]['detail'][0]['day']['wind']['power'],
-            night_win_speed=weather[0]['detail'][0]['night']['wind']['power']
-        )
+        # 下午接口数据温度会变成 9999 度，此时获取明天的数据
+        if weather[0]['detail'][0]['day']['weather']['temperature'] == '9999':
+            return template.weather_template_v1.substitute(
+                day='明天',
+                hello=say_hello(),
+                date=weather[0]['detail'][0]['date'],
+                city=weather[0]['station']['city'],
+                day_wea=weather[0]['detail'][1]['day']['weather']['info'],
+                night_wea=weather[0]['detail'][1]['night']['weather']['info'],
+                high=weather[0]['detail'][1]['day']['weather']['temperature'] + ' 度',
+                low=weather[0]['detail'][1]['night']['weather']['temperature'] + ' 度',
+                day_win=weather[0]['detail'][1]['day']['wind']['direct'],
+                night_win=weather[0]['detail'][1]['night']['wind']['direct'],
+                day_win_speed=weather[0]['detail'][1]['day']['wind']['power'],
+                night_win_speed=weather[0]['detail'][1]['night']['wind']['power'])
+        else:
+            return template.weather_template_v1.substitute(
+                day='今天',
+                hello=say_hello(),
+                date=weather[0]['detail'][0]['date'],
+                city=weather[0]['station']['city'],
+                day_wea=weather[0]['detail'][0]['day']['weather']['info'],
+                night_wea=weather[0]['detail'][0]['night']['weather']['info'],
+                high=weather[0]['detail'][0]['day']['weather']['temperature'] + ' 度',
+                low=weather[0]['detail'][0]['night']['weather']['temperature'] + ' 度',
+                day_win=weather[0]['detail'][0]['day']['wind']['direct'],
+                night_win=weather[0]['detail'][0]['night']['wind']['direct'],
+                day_win_speed=weather[0]['detail'][0]['day']['wind']['power'],
+                night_win_speed=weather[0]['detail'][0]['night']['wind']['power'])

@@ -22,5 +22,5 @@ weather_template = Template("今天是 $date $week" + os.linesep +
 weather_template_v1 = Template("$hello啊，兔子🐰！" + os.linesep +
                                os.linesep + "今天是 $date" + os.linesep +
                                os.linesep + "下面为你播报$city的天气🌡️" + os.linesep +
-                               "今天白天$day_wea，有$day_win💨 $day_win_speed，最高气温为 $high" + os.linesep +
-                               "今天晚间$night_wea，有$night_win💨 $night_win_speed，最低气温为 $low" + os.linesep + os.linesep)
+                               "$day白天$day_wea，有$day_win💨 $day_win_speed，最高气温为 $high" + os.linesep +
+                               "$day晚间$night_wea，有$night_win💨 $night_win_speed，最低气温为 $low" + os.linesep + os.linesep)
