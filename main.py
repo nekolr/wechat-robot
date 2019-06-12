@@ -40,6 +40,17 @@ def get_one_info():
         return soup_texts.find_all('div', class_='fp-one-cita')[0].find('a').text
 
 
+def get_one_info_v1():
+    """
+    获取一言（随机版）
+    :return:
+    """
+    logging.info('从『 https://api.imjad.cn/hitokoto/ 』获取一句格言')
+    r = get_json(
+        requests.get("https://api.imjad.cn/hitokoto/", params={"encode": "json"}, headers={'User-Agent': ua.random}))
+    return r['hitokoto'] + " —— " + r['source']
+
+
 def get_weather(city):
     """
     获取天气信息
@@ -93,7 +104,7 @@ def send_today_info():
     # 获取天气
     weather_info = get_weather_v1(config['city'])
     # 获取一言
-    one_info = get_one_info()
+    one_info = get_one_info_v1()
 
     if is_online(auto_login=True):
         # 获取好友列表

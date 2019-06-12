@@ -15,6 +15,7 @@
 - [天气 API](https://www.tianqiapi.com/api) - 天气信息
 - [ONE · 一个](http://wufazhuce.com/) - 一句话格言
 - [金山词霸](http://open.iciba.com/dsapi/) - 金山词霸每日一句
+- [一言](https://api.imjad.cn/hitokoto.md) - 一言（Hitokoto/ヒトコト）
 
 ## 使用
 - 安装依赖
