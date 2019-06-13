@@ -6,6 +6,7 @@ import requests
 from utils import (get_json, say_hello)
 import logging
 from fake_useragent import UserAgent
+import time
 
 # UserAgent
 ua = UserAgent(path='fake_useragent_0.1.11.json')
@@ -74,8 +75,24 @@ def get_weather_v1(city):
     logging.info('从『 http://www.nmc.cn 』获取天气信息')
     weather = get_json(requests.get('http://www.nmc.cn/f/rest/weather/' + city, headers={'User-Agent': ua.random}))
     if weather is not None:
+        # 有时（比如早上 6 点）天气信息还没有更新，此时获取明天的数据
+        now = time.strftime("%Y-%m-%d", time.localtime(time.time()))
+        if now != weather[0]['detail'][0]['date']:
+            return template.weather_template_v1.substitute(
+                day='今天',
+                hello=say_hello(),
+                date=now,
+                city=weather[0]['station']['city'],
+                day_wea=weather[0]['detail'][1]['day']['weather']['info'],
+                night_wea=weather[0]['detail'][1]['night']['weather']['info'],
+                high=weather[0]['detail'][1]['day']['weather']['temperature'] + ' 度',
+                low=weather[0]['detail'][1]['night']['weather']['temperature'] + ' 度',
+                day_win=weather[0]['detail'][1]['day']['wind']['direct'],
+                night_win=weather[0]['detail'][1]['night']['wind']['direct'],
+                day_win_speed=weather[0]['detail'][1]['day']['wind']['power'],
+                night_win_speed=weather[0]['detail'][1]['night']['wind']['power'])
         # 下午接口数据温度会变成 9999 度，此时获取明天的数据
-        if weather[0]['detail'][0]['day']['weather']['temperature'] == '9999':
+        elif weather[0]['detail'][0]['day']['weather']['temperature'] == '9999':
             return template.weather_template_v1.substitute(
                 day='明天',
                 hello=say_hello(),
