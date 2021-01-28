@@ -6,7 +6,7 @@
 """
 config = {
     # 女朋友微信名称
-    'girl_fried': u'nekolr',
+    'girl_friend': u'nekolr',
     # 每天发送消息的时间 6 点 40 分
     'hour': '6',
     'minute': '40',

@@ -27,7 +27,7 @@ def send_today_info():
         # 获取好友列表
         itchat.get_friends(update=True)
         # 查找好友
-        girl_friend = itchat.search_friends(name=config['girl_fried'])[0]
+        girl_friend = itchat.search_friends(name=config['girl_friend'])[0]
         # 发送消息
         itchat.send(weather_info + one_info, toUserName=girl_friend['UserName'])
     logging.info('发送成功')
